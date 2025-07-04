@@ -1,0 +1,152 @@
+﻿@using ProjectPRN222.Models
+@{
+    Subject subject = ViewBag.Subject;
+    Package package = ViewBag.Package;
+    int account_id = ViewBag.AccountId;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Create New Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 20px;
+        }
+
+            .header h3 {
+                margin: 0;
+                padding: 10px 0;
+                color: #6c757d;
+            }
+
+        h3 {
+            color: #343a40;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .form-group input[type="number"],
+            .form-group input[type="text"] {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+            }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <h3 class="text-muted">VNPAY</h3>
+        </div>
+        <h3>Create New Order</h3>
+
+        <div class="table-responsive">
+            <form method="post" action="/Payment/RedirectToVnpay">
+                <div class="form-group">
+                    <label for="amount">Price:</label>
+                    <input class="form-control" name="amount" type="number" value="@package.SalePrice" required />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" id="description" name="description" type="text"
+                           value="Buy Subject: @subject.SubjectName" required />
+                </div>
+
+                <input type="hidden" name="subject_id" value="@subject.SubjectId" />
+                <input type="hidden" name="account_id" value="@account_id" />
+                <input type="hidden" name="sale_price" value="@package.SalePrice" />
+                <input type="hidden" name="package_id" value="@package.PackageId" />
+
+                <button type="submit" class="btn">Purchase</button>
+            </form>
+        </div>
+        <footer class="footer">
+            <p>&copy; VNPAY 2020</p>
+        </footer>
+    </div>
+    <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
+    <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
+    <script type="text/javascript">
+        $("#frmCreateOrder").submit(function () {
+            var postData = $(this).serialize();
+            var submitUrl = $(this).attr("action");
+            $.ajax({
+                type: "POST",
+                url: submitUrl,
+                data: postData,
+                dataType: 'JSON',
+                success: function (x) {
+                    if (x.code === '00') {
+                        if (window.vnpay) {
+                            vnpay.open({width: 768, height: 600, url: x.data});
+                        } else {
+                            location.href = x.data;
+                        }
+                        return false;
+                    } else {
+                        alert(x.Message);
+                    }
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+</html>

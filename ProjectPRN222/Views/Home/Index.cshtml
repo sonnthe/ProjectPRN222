@@ -1,0 +1,368 @@
+﻿@using ProjectPRN222.Models
+
+@model List<Subject>
+@{
+    ViewData["Title"] = "Homepage";
+    Layout = "_HomepageLayout";
+}
+@section Styles{
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider {
+            display: flex;
+            width: 200%;
+            transition: 1s;
+            animation: slide 8s infinite;
+        }
+
+        .slide {
+            width: 100%;
+            position: relative;
+        }
+
+            .slide img {
+                width: 100%;
+                height: 500px;
+                object-fit: cover;
+            }
+
+        .text-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5); 
+            padding: 20px;
+        }
+
+            .text-overlay h1 {
+                font-size: 3em;
+                margin-bottom: 10px;
+            }
+
+            .text-overlay p {
+                font-size: 1.2em;
+            }
+
+    </style>
+    <style>
+        .password-container {
+            position: relative;
+        }
+
+            .password-container input[type="password"],
+            .password-container input[type="text"] {
+                width: 100%;
+                padding-right: 30px;
+            }
+
+            .password-container .toggle-password {
+                position: absolute;
+                right: 10px;
+                top: 70%;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+    </style>
+       }
+    <div class="page-wraper" id="bg" onload="LoginAgain()">
+            <div id="loading-icon-bx"></div>
+            <header class="header rs-nav header-transparent">
+        @await Html.PartialAsync("Login")
+        @await Html.PartialAsync("Header")
+        @await Html.PartialAsync("Register")
+
+            </header>
+
+                <div class="content-block">
+                    <!-- Featured Subject -->
+            <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 heading-bx left">
+                            <h2 class="title-head" style="color: white">All <span>Subject</span></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var subject in Model)
+                                {
+                                    @* if (subject.Description?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true *@
+                                    @* || subject.SubjectName?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true) *@
+                                    @* { *@
+                                        <div class="item" style="width: 300px; height: 350px;">
+                                            <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                                <div class="action-box" style="width: 100%; height: 57%;">
+                                                    <img src="@subject.Thumbnail" alt="" style="width: 100%; height: 100%;" />
+                                                    <a href="@Url.Action("Detail","SubjectList", new { subject_id = subject.SubjectId })" class="btn">Read More</a>
+                                                </div>
+                                                <div class="info-bx text-center" style="padding: 10px;">
+                                                    <h5>
+                                                    <a href="@Url.Action("Detail","SubjectList", new { subject_id = subject.SubjectId })"
+                                                           style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            @subject.Description
+                                                        </a>
+                                                    </h5>
+                                                    <span>@subject.Tagline</span>
+                                                </div>
+                                                <div class="cours-more-info">
+                                                    <div class="review">
+                                                        <i class="fa fa-user"></i> <span>Author</span>
+                                                <p style="font-size:small; font-weight: bold" >@subject.Account.LastName @subject.Account.FirstName </p>
+                                                    </div>
+                                                    <div class="price">
+                                                        @if (true)
+                                                        {
+                                                        <i class="fa fa-user"></i> <span>Price</span>
+                                                            var pkg = subject.Packages.First();
+                                                    <p style="font-size:small; font-weight: bold">@pkg.SalePrice$</p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            @* } *@
+                            @* else *@
+                            @* { *@
+                            @*     <p>No subjects found matching your search.</p> *@
+                            @* } *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- Popular Courses END -->
+
+                    <!-- Form -->
+        <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url('@Url.Content("~/assets/images/background/bg1.jpg")');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center text-white">
+                        <h2>Online Subjects To Learn</h2>
+                        <h5>Own Your Feature Learning New Skills Online</h5>
+                        <form class="cours-search" method="get" asp-controller="Search" asp-action="Index">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="What do you want to learn today?" name="keyword" value="@Context.Request.Query["keyword"]" />
+                                <div class="input-group-append">
+                                    <button class="btn" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="mw800 m-auto">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="cours-search-bx m-b30">
+                                <div class="icon-box">
+                                    <h3><i class="ti-user"></i><span class="counter">5</span>M</h3>
+                                </div>
+                                <span class="cours-search-text">Over @ViewBag.TotalUsers Users</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="cours-search-bx m-b30">
+                                <div class="icon-box">
+                                    <h3><i class="ti-book"></i><span class="counter">30</span>K</h3>
+                                </div>
+                                <span class="cours-search-text">@ViewBag.TotalSubjects Subjects</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="cours-search-bx m-b30">
+                                <div class="icon-box">
+                                    <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
+                                </div>
+                                <span class="cours-search-text">Learn @ViewBag.TotalLessons Lessons.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Content("~/web/admin/bookmark.html")"></a>
+            </div>
+        </div>
+
+
+        <!-- contact area END -->
+            </div>
+            @* <%@include file="\common\footer.html" %> *@
+            <button class="back-to-top fa fa-chevron-up" ></button>
+  
+@section Scripts {
+    <script>
+        //login
+        const openLoginButton = document.getElementById('open-login-popup');
+        const closeLoginButton = document.getElementById('close-login-popup');
+        const loginPopup = document.getElementById('login-popup');
+        const loginError = document.getElementById('login-error');
+        const checkLoginError = document.getElementById('check-login-error');
+        //register
+        const openRegisterButton = document.getElementById('open-register-popup');
+        const closeRegisterButton = document.getElementById('close-register-popup');
+        const registerPopup = document.getElementById('register-popup');
+        const emailError = document.getElementById('email-error');
+        const checkEmailError = document.getElementById('check-email-error');
+        const passError = document.getElementById('pass-error');
+        const checkPassError = document.getElementById('check-pass-error');
+        //requestPass
+        const openRequestButton = document.getElementById('open-requestPass-popup');
+        const closeRequestButton = document.getElementById('close-requestPass-popup');
+        const RequestPopup = document.getElementById('requestPass-popup');
+        const requestError = document.getElementById('requestPass-error');
+        const checkRequestError = document.getElementById('check-requestPass-error');
+
+
+        openLoginButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+        };
+
+        openRegisterButton.onclick = function () {
+            registerPopup.style.display = 'flex';
+        };
+
+        closeLoginButton.onclick = function () {
+            loginPopup.style.display = 'none';
+        };
+        closeRegisterButton.onclick = function () {
+            registerPopup.style.display = 'none';
+        };
+        openRequestButton.onclick = function () {
+            loginPopup.style.display = 'none';
+            RequestPopup.style.display = 'flex';
+        };
+        closeRequestButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+            RequestPopup.style.display = 'none';
+        };
+        function LoginAgain() {
+
+            if (checkLoginError !== null && checkLoginError.textContent === loginError.textContent) {
+                loginPopup.style.display = 'flex';
+                return;
+            }
+            if (loginError !== null & loginError.textContent === "Invalid email or password"||
+                    loginError.textContent === "Password must contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character") {
+                loginPopup.style.display = 'flex';
+                return;
+            }
+            if (emailError.textContent === "Email existed!" || emailError.textContent === "Email must end with fpt.edu.vn" ) {
+                registerPopup.style.display = 'flex';
+                return;
+            }
+            if (passError !== null && passError.textContent === "Wrong confirmed password!"
+                    ||passError.textContent === "Password must contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character") {
+                registerPopup.style.display = 'flex';
+                return;
+            }
+            if (requestError !== null && requestError.textContent === 'Send request success') {
+                RequestPopup.style.display = 'flex';
+                return;
+            }
+            if (requestError !== null && requestError.textContent === 'Email not existed') {
+                RequestPopup.style.display = 'flex';
+                return;
+            }
+            console.log(emailError.textContent);
+
+
+        }
+        window.onclick = function (event) {
+            if (event.target === loginPopup) {
+                loginPopup.style.display = 'none';
+            }
+        };
+
+        window.onclick = function (event) {
+            if (event.target === registerPopup) {
+                registerPopup.style.display = 'none';
+            }
+        };
+    </script>
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("userPass");
+            var toggleIcon = document.querySelector(".toggle-password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+    <script>
+        function togglePasswordRegister() {
+            var passwordFieldforregister = document.getElementById("userPassforregister");
+            var toggleIcon = document.querySelector(".toggle-password");
+            if (passwordFieldforregister.type === "password") {
+                passwordFieldforregister.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordFieldforregister.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+
+        function togglePasswordConfirm() {
+            var passwordFieldforregister = document.getElementById("userPassforconfirm");
+            var toggleIcon = document.querySelector(".toggle-password");
+            if (passwordFieldforregister.type === "password") {
+                passwordFieldforregister.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordFieldforregister.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+ }

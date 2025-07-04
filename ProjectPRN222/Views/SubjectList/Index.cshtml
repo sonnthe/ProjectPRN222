@@ -1,0 +1,253 @@
+﻿
+@using ProjectPRN222.Models
+@model List<Subject> 
+@{
+    ViewData["Title"] = "SubjectList";
+    Layout = "_SubjectListLayout";
+}
+@section Styles{
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+        }
+
+    </style>
+    }
+<body id="bg">
+    <div class="page-wraper">
+        <div id="loading-icon-bx"></div>
+        <header class="header rs-nav header-transparent">
+            <!-- login -->
+            @await Html.PartialAsync("Login")
+            @await Html.PartialAsync("Header")
+            @await Html.PartialAsync("Register")
+
+        </header>
+        <!-- Content -->
+        <div class="page-content">
+            <!-- inner page banner -->
+            <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+                <div class="container">
+                    <div class="page-banner-entry">
+                        <h1 class="text-white">Subject List</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- contact area -->
+            <div class="content-block">
+                <div class="section-area section-sp1">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Left part start -->
+                            <div class="col-lg-8">
+                                <div class="sort-options">
+                                    <form method="get" action="subject_list" style="display: flex; align-items: center; width: 100%;">
+                                        <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
+                                        <div>
+                                            @* <label style="margin-right: 10px"> *@
+                                            @*     <input type="radio" name="sort" value="featured" ${param.sort= ='featured' ? 'checked' : '' } onchange="this.form.submit()"> Featured *@
+                                            @* </label> *@
+                                            @* <label style="margin-right: 10px"> *@
+                                            @*     <input type="radio" name="sort" value="latest" ${param.sort= ='latest' ? 'checked' : '' } onchange="this.form.submit()"> Latest *@
+                                            @* </label> *@
+                                            @* <label> *@
+                                            @*     <input type="radio" name="sort" value="oldest" ${param.sort= ='oldest' ? 'checked' : '' } onchange="this.form.submit()"> Oldest *@
+                                            @* </label> *@
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                @foreach (var c in Model) 
+                                {
+                                    @* if (string.IsNullOrEmpty("a") || *@
+                                    @* (c.Description != null && c.Description.ToLower().Contains("A".ToLower()))) *@
+                                    @* { *@
+                                        <div class="blog-post blog-md clearfix">
+                                            <div class="ttr-post-media">
+                                                <a href="@Url.Action("Detail","SubjectList", new { subject_id = c.SubjectId })">
+                                                    <img src="@c.Thumbnail" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="ttr-post-info">
+                                                <ul class="media-post">
+                                                    <li><i class="fa fa-calendar"></i>@c.CreatedDate</li>
+                                                    <li><b>@c.Tagline</b></li>
+                                                </ul>
+                                                <h5 class="post-title">
+                                                <a href="@Url.Action("Detail","SubjectList", new { subject_id = c.SubjectId })">
+                                                        @c.SubjectName
+                                                    </a>
+                                                </h5>
+                                                <p>@c.Description</p>
+                                                <div class="post-extra">
+                                                    @if (ViewBag.selectedPackageModel != null)
+                                                    {
+                                                        @* var pkg = YourNamespace.YourPackageDAO.GetListPackageBySubjectID(c.SubjectId).FirstOrDefault(); *@
+                                                        @* if (pkg != null) *@
+                                                        @* { *@
+                                                        @*     <del>@pkg.ListPrice$</del> *@
+                                                        @*     <h4 class="price">@pkg.SalePrice$</h4> *@
+                                                        @* } *@
+                                                    }
+                                                    <div style="margin-left: 50px;"></div>
+                                                    <a href="/Account/Login" class="btn btn-primary">Register</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @* } *@
+                                }
+
+                                <!-- Pagination start -->
+                                <div class="col-lg-12 m-b20">
+                                    <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
+                                        <ul class="pagination" style="display: flex; justify-content: center; align-items: center;">
+                                            <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Pagination END -->
+                            </div>
+                            <!-- Left part END -->
+                            <!-- Side bar start -->
+                            <div class="col-lg-4 sticky-top">
+                                <aside class="side-bar sticky-top">
+                                    <div class="widget">
+                                        <h6 class="widget-title">Search</h6>
+                                        <div class="search-bx style-1">
+                                            <form role="search" method="get" action="subject_list">
+                                                <div class="input-group">
+                                                    <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                    <span class="input-group-btn">
+                                                        <button type="submit" class="fa fa-search text-primary"></button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="widget widget_tag_cloud">
+                                        <h6 class="widget-title">Categories</h6>
+                                        <div class="search-bx style-1">
+                                            <form role="search" method="get" action="searchByCategory">
+                                                <div class="input-group">
+                                                    <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                    <input name="category" type="hidden" value="${param.category != null ? param.category : ''}">
+                                                    <span class="input-group-btn">
+                                                        <button type="submit" class="fa fa-search text-primary"></button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <br>
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="back-to-top fa fa-chevron-up"></button>
+        <!-- scroll top button -->
+    </div>
+    @section Scripts {
+    <script>
+        //login
+        const openLoginButton = document.getElementById('open-login-popup');
+        const closeLoginButton = document.getElementById('close-login-popup');
+        const loginPopup = document.getElementById('login-popup');
+        const loginError = document.getElementById('login-error');
+        const checkLoginError = document.getElementById('check-login-error');
+        //register
+        const openRegisterButton = document.getElementById('open-register-popup');
+        const closeRegisterButton = document.getElementById('close-register-popup');
+        const registerPopup = document.getElementById('register-popup');
+        const emailError = document.getElementById('email-error');
+        const checkEmailError = document.getElementById('check-email-error');
+        const passError = document.getElementById('pass-error');
+        const checkPassError = document.getElementById('check-pass-error');
+        //requestPass
+        const openRequestButton = document.getElementById('open-requestPass-popup');
+        const closeRequestButton = document.getElementById('close-requestPass-popup');
+        const RequestPopup = document.getElementById('requestPass-popup');
+        const requestError = document.getElementById('requestPass-error');
+        const checkRequestError = document.getElementById('check-requestPass-error');
+
+
+        openLoginButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+        };
+
+        openRegisterButton.onclick = function () {
+            registerPopup.style.display = 'flex';
+        };
+
+        closeLoginButton.onclick = function () {
+            loginPopup.style.display = 'none';
+        };
+        closeRegisterButton.onclick = function () {
+            registerPopup.style.display = 'none';
+        };
+        openRequestButton.onclick = function () {
+            loginPopup.style.display = 'none';
+            RequestPopup.style.display = 'flex';
+        };
+        closeRequestButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+            RequestPopup.style.display = 'none';
+        };
+        function LoginAgain() {
+            if (checkLoginError.textContent === loginError.textContent) {
+                loginPopup.style.display = 'flex';
+            }
+            if (checkEmailError.textContent === emailError.textContent) {
+                registerPopup.style.display = 'flex';
+            }
+            if (checkPassError.textContent === passError.textContent) {
+                registerPopup.style.display = 'flex';
+            }
+            if (requestError.textContent === 'Send request success') {
+                RequestPopup.style.display = 'flex';
+            }
+            if (requestError.textContent === 'Email not existed') {
+                RequestPopup.style.display = 'flex';
+            }
+            console.log(requestError.textContent);
+
+
+        }
+        window.onclick = function (event) {
+            if (event.target === loginPopup) {
+                loginPopup.style.display = 'none';
+            }
+        };
+
+        window.onclick = function (event) {
+            if (event.target === registerPopup) {
+                registerPopup.style.display = 'none';
+            }
+        };
+    </script>
+    }
+</body>

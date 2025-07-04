@@ -1,0 +1,37 @@
+﻿<div class="sticky-header navbar-expand-lg">
+    <div class="menu-bar  ">
+        <div class="container ">
+            <!-- Header Logo ==== -->
+            <div class="menu-logo">
+                <a href="homepage"><img src="assets/images/logo.png" alt=""></a>
+            </div>
+            <!-- Navigation Menu ==== -->
+            <div class="menu-links navbar-collapse collapse justify-content-start" id="menuDropdown">
+                <div class="menu-logo">
+                    <a href="homepage"><img src="assets/images/logo.png" alt=""></a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="@Url.Action("Index", "CustomerHome")">Home</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "CustomerSubjectList")">Subjects</a>
+                    </li>
+
+                    <li style="margin-left: 690px">
+                        <a href="javascript:;"><i style="font-size: 20px" class="fa fa-user"></i></a>
+                        <ul class="sub-menu">
+                            <li><a href="@Url.Action("Index", "CustomerRegistrationList")">My Registration Subject</a></li>
+                            <li><a href="logout">Logout</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!-- Navigation Menu END ==== -->
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- META ============================================= -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="robots" content="" />
+
+    <!-- DESCRIPTION -->
+    <meta name="description" content="EduChamp : Education HTML Template" />
+
+    <!-- OG -->
+    <meta property="og:title" content="EduChamp : Education HTML Template" />
+    <meta property="og:description" content="EduChamp : Education HTML Template" />
+    <meta property="og:image" content="" />
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- FAVICONS ICON ============================================= -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+    <script src="https://kit.fontawesome.com/f36b960bbe.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- PAGE TITLE HERE ============================================= -->
+    <!-- PAGE TITLE HERE ============================================= -->
+    <title>EduChamp : Education HTML Template </title>
+
+    <!-- MOBILE SPECIFIC -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- All PLUGINS CSS -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/assets.css")" />
+
+    <!-- TYPOGRAPHY -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/typography.css")" />
+
+    <!-- SHORTCODES -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/shortcodes/shortcodes.css")" />
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/style.css")" />
+    <link class="skin" rel="stylesheet" type="text/css" href="@Url.Content("~/assets/css/color/color-1.css")" />
+    <title>@ViewData["Title"] - EduChamp</title>
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    @RenderBody()
+
+    <!-- CORE JS -->
+    <script src="@Url.Content("~/assets/js/jquery.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/magnific-popup/magnific-popup.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/counter/waypoints-min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/counter/counterup.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/imagesloaded/imagesloaded.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/masonry/masonry.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/masonry/filter.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/owl-carousel/owl.carousel.js")"></script>
+    <script src="@Url.Content("~/assets/js/functions.js")"></script>
+    <script src="@Url.Content("~/assets/js/contact.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/switcher/switcher.js")"></script>
+
+    <script>
+        function updatePrice() {
+            var select = document.getElementById('courseDuration');
+            var selectedOption = select.options[select.selectedIndex];
+            var salePrice = selectedOption.getAttribute('data-price');
+            var priceElement = document.querySelector('.course-price h4.price');
+
+            // C?p nh?t giá hi?n th?
+            priceElement.innerText = salePrice;
+        }
+    </script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

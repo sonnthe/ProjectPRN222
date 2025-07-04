@@ -1,0 +1,194 @@
+﻿@using ProjectPRN222.Models
+@{
+    ViewData["Title"] = "Homepage";
+    Layout = "_HomepageLayout";
+}
+@section Styles{
+<style>
+    .slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    }
+
+    .slider {
+    display: flex;
+    width: 200%;
+    transition: 1s;
+    animation: slide 8s infinite;
+    }
+
+    .slide {
+    width: 100%;
+    position: relative;
+    }
+
+    .slide img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    }
+
+    .text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+    }
+
+    .text-overlay h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    }
+
+    .text-overlay p {
+    font-size: 1.2em;
+    }
+</style>
+}
+
+<div class="page-wraper" id="bg">
+    <header class="header rs-nav header-transparent">
+        @await Html.PartialAsync("CustomerHeader")
+    </header>
+    <div class="page-content bg-white">
+        <div class="content-block">
+            <!--Registed Subject Form -->
+            <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 heading-bx left">
+                            <h2 class="title-head" style="color: white">My <span>Subjects</span></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                            @{
+                                var keyword = ViewBag.Keyword;
+                                List<Subject> boughtSubjectList = (List<Subject>)ViewBag.BoughtSubjectList;
+                                List<Subject> subjectList = (List<Subject>)ViewBag.SubjectList;
+                            }
+                            @if (boughtSubjectList != null && boughtSubjectList.Any())
+                            {
+                                for (int i = 0; i < boughtSubjectList.Count; i++)
+                                {
+                                    var subject = boughtSubjectList[i];                                   
+                                    if (subject.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                                    subject.SubjectName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <div class="item" style="width: 300px; height: 350px;">
+                                            <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                                <div class="action-box" style="width: 100%; height: 57%;">
+                                                    <img src="@subject.Thumbnail" alt="" style="width: 100%; height: 100%;" />
+                                                    <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = subject.SubjectId })" class="btn">Read More</a>
+                                                </div>
+                                                <div class="info-bx text-center" style="padding: 10px;">
+                                                    <h5>
+                                                        <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = subject.SubjectId })"
+                                                           style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            @subject.Description
+                                                        </a>
+                                                    </h5>
+                                                    <span>@subject.Tagline</span>
+                                                </div>
+                                                <div class="cours-more-info">
+                                                    <div class="review">
+                                                        <i class="fa fa-user"></i> <span>Author</span>
+                                                        <p style="font-size:small; font-weight: bold">@subject.Account.LastName @subject.Account.FirstName </p>
+                                                    </div>
+                                                    <div class="price">
+                                                        @if (true)
+                                                        {
+                                                            <i class="fa fa-user"></i> <span>Price</span>
+                                                            var pkg = subject.Packages.First();
+                                                            <p style="font-size:small; font-weight: bold">@pkg.SalePrice$</p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <p>No subjects found matching your search.</p>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(@Url.Content("~/assets/images/background/bg1.jpg"));">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 heading-bx left">
+                            <h2 class="title-head" style="color: white">All <span>Subjects</span></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                            @if (subjectList != null && subjectList.Any())
+                            {
+                                foreach (var subject in subjectList)
+                                {
+                                     if (subject.Description?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true 
+                                     || subject.SubjectName?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true) 
+                                     { 
+                                    <div class="item" style="width: 300px; height: 350px;">
+                                        <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                            <div class="action-box" style="width: 100%; height: 57%;">
+                                                <img src="@subject.Thumbnail" alt="" style="width: 100%; height: 100%;" />
+                                                    <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = subject.SubjectId })" class="btn">Read More</a>
+                                            </div>
+                                            <div class="info-bx text-center" style="padding: 10px;">
+                                                <h5>
+                                                        <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = subject.SubjectId })"
+                                                       style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        @subject.Description
+                                                    </a>
+                                                </h5>
+                                                <span>@subject.Tagline</span>
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="review">
+                                                    <i class="fa fa-user"></i> <span>Author</span>
+                                                        <p style="font-size:small; font-weight: bold">@subject.Account.LastName @subject.Account.FirstName </p>
+                                                </div>
+                                                <div class="price">
+                                                    @if (true)
+                                                    {
+                                                        <i class="fa fa-user"></i> <span>Price</span>
+                                                        var pkg = subject.Packages.First();
+                                                            <p style="font-size:small; font-weight: bold">@pkg.SalePrice$</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                             } 
+                             else 
+                             { 
+                                 <p>No subjects found matching your search.</p> 
+                             } 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content END-->
+    <!-- Footer END ==== -->
+    <button class="back-to-top fa fa-chevron-up"></button>
+</div>

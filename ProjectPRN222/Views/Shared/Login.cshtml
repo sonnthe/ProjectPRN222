@@ -1,0 +1,85 @@
+﻿@{
+    var cookie = Context.Request.Cookies;
+}
+
+<body id="bg">
+    <div class="page-wraper popup" id="login-popup" style="margin-top: 50px">
+        <div class="account-form popup-content">
+            <div class="account-form-inner" style="background-color: white">
+                <div style="text-align: right">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-login-popup"></button>
+                </div>
+                <div class="account-container">
+                    <div class="heading-bx left">
+                        <h2 class="title-head">Login to your <span>Account</span></h2>
+                        <p>Don't have an account? <a href="#" id="open-register-popup-in-login">Create one here</a></p>
+                    </div>
+                    <form class="contact-bx" action="Home/Login" method="post" >
+                        <div class="row placeani">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <p style="color: red" id="login-error">@ViewData["ErrorMessage"]</p>
+                                    <p style="color: red" id="check-login-error" hidden>Incorrect username or password</p>
+                                    <label>Email</label>
+                                    <input name="Email" type="email" required class="form-control"
+                                           value="@(cookie.ContainsKey("c_user") ? cookie["c_user"] : "")" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group password-container">
+                                    <label>Your Password</label>
+                                    <input name="Password" id="userPass" type="password" class="form-control" required />
+                                    <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group form-forget">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="rem"
+                                        @(cookie.ContainsKey("c_check_button") ? "checked" : "") />
+                                        <label class="custom-control-label" for="customControlAutosizing">Remember me</label>
+                                    </div>
+                                    <a href="#" class="ml-auto" id="open-requestPass-popup">Forgot Password?</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 m-b30">
+                                <button name="submit" type="submit" value="Submit" class="btn button-md">Login</button>
+                            </div>
+                            <div class="col-lg-12">
+                                <h6>Login with Social media</h6>
+                                <div class="d-flex">
+                                    <a class="btn flex-fill m-l5 google-plus" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/quizonline/googlelogin&response_type=code&client_id=393624416817-8crlnf1o21kjk410epg6pjg7q6bohd79.apps.googleusercontent.com&approval_prompt=force">
+                                        <i class="fa fa-google-plus"></i>Google Plus
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="@Url.Content("~/assets/js/jquery.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/magnific-popup/magnific-popup.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/counter/waypoints-min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/counter/counterup.min.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/imagesloaded/imagesloaded.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/masonry/masonry.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/masonry/filter.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/owl-carousel/owl.carousel.js")"></script>
+    <script src="@Url.Content("~/assets/js/functions.js")"></script>
+    <script src="@Url.Content("~/assets/js/contact.js")"></script>
+    <script src="@Url.Content("~/assets/vendors/switcher/switcher.js")"></script>
+
+
+    <script>
+        const openRegisterButtonInLogin = document.getElementById('open-register-popup-in-login');
+        openRegisterButtonInLogin.onclick = function () {
+            registerPopup.style.display = 'flex';
+        };
+    </script>
+</body>

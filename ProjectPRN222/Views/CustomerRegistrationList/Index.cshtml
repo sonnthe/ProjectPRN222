@@ -1,0 +1,130 @@
+﻿@using ProjectPRN222.Models
+@{
+    ViewData["Title"] = "RegistrationList";
+    Layout = "_HomepageLayout";
+}
+<div class="page-wraper">
+    <header class="header rs-nav header-transparent">
+        @await Html.PartialAsync("CustomerHeader")
+    </header>
+    <!-- Content -->
+    <div class="page-content bg-white">
+        <!-- inner page banner -->
+        <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner3.jpg);">
+            <div class="container">
+                <div class="page-banner-entry">
+                    <h1 class="text-white">My Registrations</h1>
+                </div>
+            </div>
+        </div>
+        <!-- Breadcrumb row END -->
+        <!-- inner page banner END -->
+        <div class="content-block">
+            <!-- About Us -->
+            <div class="section-area section-sp1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
+                            <div class="widget courses-search-bx placeani">
+                                <div class="form-group">
+                                    <form action="customersearchregistration">
+                                        <div class="input-group">
+                                            <label>Search My Registrations</label>
+                                            <input name="dzName" type="text" required class="form-control"><br><br>
+                                            <input type="submit" value="Search" class="btn radius-xl text-uppercase">
+                                            <input type="text" value="search" hidden name="action">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="widget recent-posts-entry widget-courses">
+                                <h5 class="widget-title style-1">My Subjects</h5>
+                                <div class="widget-post-bx">
+                                    @if (ViewBag.BoughtSubjectList != null)
+                                    {
+                                        foreach (Subject c in ViewBag.BoughtSubjectList)
+                                        {
+                                            @* if (!string.IsNullOrEmpty(Request.Query["keyword"]) && *@
+                                            @* c.SubjectName?.ToLower().Contains(Request.Query["keyword"].ToString().ToLower()) == true) *@
+                                            {
+                                                <div class="blog-post blog-md clearfix">
+                                                    <div class="ttr-post-media">
+                                                        <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = c.SubjectId })">
+                                                            <img src="@c.Thumbnail" alt="" />
+                                                        </a>
+                                                        <h5 class="post-title">
+                                                            <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = c.SubjectId })">
+                                                                @c.SubjectName
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                        @{
+                            List<Subject> registeredSubjects = (List < Subject>) ViewBag.RegisteredSubjectList;
+                        }
+                        <div class="col-lg-9 col-md-8 col-sm-12">
+                            <div class="row">
+                                @if (registeredSubjects != null && registeredSubjects.Any())
+                                {
+                                    for (int i = 0; i < registeredSubjects.Count; i++)
+                                    {
+                                        Subject subject = registeredSubjects[i];
+                                        <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                            <div class="item" style="width: 250px; height: 300px;">
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                                    <div class="action-box" style="width: 100%; height: 57%;">
+                                                        <img src="@subject.Thumbnail" alt="" style="width: 100%; height: 100%;" />
+                                                        <a href="@Url.Action("Remove","CustomerRegistrationList", new { subject_id = subject.SubjectId })" class="btn">Remove</a>
+                                                    </div>
+                                                    <div class="info-bx text-center" style="padding: 10px;">
+                                                        <h5>
+                                                            <a href="@Url.Action("Detail","CustomerSubjectList", new { subject_id = subject.SubjectId })"
+                                                               style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                @subject.Description
+                                                            </a>
+                                                        </h5>
+                                                        <span>@subject.Tagline</span>
+                                                    </div>
+                                                    <div class="cours-more-info">
+                                                        <div class="review">
+                                                            <i class="fa fa-user"></i><span>Author</span>
+                                                                <h5>@subject.Account.FirstName @subject.Account.LastName</h5>
+                                                        </div>
+                                                        <div class="price">
+                                                            @if (true)
+                                                            {
+                                                                <i class="fa fa-user"></i> <span>Price</span>
+                                                                var pkg = subject.Packages.First();
+                                                                <p style="font-size:small; font-weight: bold">@pkg.SalePrice$</p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>No subjects found matching your search.</p>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- contact area END -->
+
+    </div>
+    <!-- Footer END ==== -->
+    <button class="back-to-top fa fa-chevron-up"></button>
+</div>

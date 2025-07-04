@@ -1,0 +1,283 @@
+﻿@using ProjectPRN222.Models
+@{
+    var subject = ViewBag.Subject;
+    int totalLessons = subject.Lessons.Count;
+    string category = subject.Category?.CategoryName ?? "Uncategorized";
+}
+@{
+    ViewData["Title"] = "SubjectDetail";
+    Layout = "_SubjectDetailLayout";
+}
+@section Styles{
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+        }
+
+    </style>
+    }
+<body id="bg">
+
+    <div class="page-wraper">
+        <div id="loading-icon-bx"></div>
+        <header class="header rs-nav header-transparent">
+            @await Html.PartialAsync("Login")
+            @await Html.PartialAsync("Header")
+            @await Html.PartialAsync("Register")
+        </header>
+        <!-- Header Top ==== -->
+        <!-- header END ==== -->
+        <!-- Content -->
+        <div class="page-content">
+            <!-- inner page banner -->
+            <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+                <div class="container">
+                    <div class="page-banner-entry">
+                        <h1 class="text-white">Subjects Details</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- inner page banner END -->
+            <div class="content-block">
+                <!-- About Us -->
+                <div class="section-area section-sp1">
+                    <div class="container">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
+                                <div class="course-detail-bx">
+                                    <div class="course-price">
+                                        <div class="course-price">
+                                            <label for="courseDuration">Choose duration:</label>
+                                            <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
+                                                @foreach (var pkg in (List<Package>)ViewBag.Packages)
+                                                {
+                                                    @* var selected = (pkg.Duration == (int)ViewBag.SelectedDuration) ? "selected" : ""; *@
+                                                    <option value="@pkg.Duration" data-price="@pkg.SalePrice$" >
+                                                        @pkg.Duration days
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="course-buy-now text-center">
+                                        <a href="login.jsp" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+                                    </div>
+                                    <div class="teacher-bx">
+                                        <div class="teacher-info">
+                                            <div class="teacher-name">
+                                                <span>Teacher</span>
+                                                <c:set var="c" value="${requestScope.account}" />
+                                                <h5 class="text-primary">@subject.Account.FirstName @subject.Account.LastName</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cours-more-info">
+                                        <div class="price categories">
+                                            <span>Categories</span>
+                                           
+                                            <h5 class="text-primary"> @category</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="course-info-list scroll-page">
+                                        <ul class="navbar">
+                                            <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
+                                            <li><a class="nav-link" href="#curriculum"><i class="ti-bookmark-alt"></i>Curriculum</a></li>
+                                            <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Instructor</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-9 col-md-8 col-sm-12">
+
+                                <div class="courses-post">
+                                    <div class="ttr-post-media media-effect">
+                                        <a href="#">
+                                            <img src="@subject.Thumbnail" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="ttr-post-info">
+                                        <div class="ttr-post-title">
+                                            <h2 class="post-title">@subject.SubjectName</h2>
+                                        </div>
+                                        <div class="ttr-post-text">
+                                            <p>@subject.Tagline</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="courese-overview" id="overview">
+                                    <h4>Overview</h4>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-4">
+                                            <ul class="course-features">
+                                                <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">@totalLessons</span></li>
+                                                <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-12 col-lg-8">
+                                            <h5 class="m-b5">Course Description</h5>
+                                            <p>@subject.Description</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @{
+                                    var lessonTopics = (List<LessonTopic>)ViewBag.LessonTopics;  
+                                }
+
+                                <div class="m-b30" id="curriculum">
+                                    <h4>Curriculum</h4>
+                                    <ul class="curriculum-list">
+                                        @foreach (var topic in lessonTopics)
+                                        {
+                                            <li>
+                                                <h5>@topic.LessonTopicName</h5>
+                                                <ul>
+                                                    @foreach (var lesson in topic.Lessons)
+                                                    {
+                                                        <li>
+                                                            <div class="curriculum-list-box">
+                                                                <span>Lesson @lesson.LessonOrder.</span>
+                                                                @lesson.LessonName
+                                                            </div>
+                                                            <span>@lesson.LessonName</span>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
+
+                                <div class="" id="instructor">
+                                    <h4>Instructor</h4>
+                                    <div class="instructor-bx">
+                                        <div class="instructor-author">
+                                            <img src="https://cdn.shopify.com/s/files/1/0597/6149/2152/t/49/assets/0007019893114747_b-1650694026425_1200x.jpg?v=1650694028" alt="">
+                                        </div>
+                                        <div class="instructor-info">
+                                            <c:set var="c" value="${requestScope.account}" />
+                                            <h5 class="text-primary">${account.first_name} ${account.last_name}</h5>
+                                            <span>Author</span>
+                                            <br>
+                                            <p class="m-b0">Teachers play a vital role in the education and development of students. They not only impart knowledge but also inspire and motivate learners to explore their potential. By employing innovative teaching methods, teachers create an engaging learning environment that encourages participation and critical thinking.</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- contact area END -->
+
+        </div>
+        <button class="back-to-top fa fa-chevron-up"></button>
+    </div>
+    @section Scripts {
+    <script>
+        //login
+        const openLoginButton = document.getElementById('open-login-popup');
+        const closeLoginButton = document.getElementById('close-login-popup');
+        const loginPopup = document.getElementById('login-popup');
+        const loginError = document.getElementById('login-error');
+        const checkLoginError = document.getElementById('check-login-error');
+        //register
+        const openRegisterButton = document.getElementById('open-register-popup');
+        const closeRegisterButton = document.getElementById('close-register-popup');
+        const registerPopup = document.getElementById('register-popup');
+        const emailError = document.getElementById('email-error');
+        const checkEmailError = document.getElementById('check-email-error');
+        const passError = document.getElementById('pass-error');
+        const checkPassError = document.getElementById('check-pass-error');
+        //requestPass
+        const openRequestButton = document.getElementById('open-requestPass-popup');
+        const closeRequestButton = document.getElementById('close-requestPass-popup');
+        const RequestPopup = document.getElementById('requestPass-popup');
+        const requestError = document.getElementById('requestPass-error');
+        const checkRequestError = document.getElementById('check-requestPass-error');
+
+
+        openLoginButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+        };
+
+        openRegisterButton.onclick = function () {
+            registerPopup.style.display = 'flex';
+        };
+
+        closeLoginButton.onclick = function () {
+            loginPopup.style.display = 'none';
+        };
+        closeRegisterButton.onclick = function () {
+            registerPopup.style.display = 'none';
+        };
+        openRequestButton.onclick = function () {
+            loginPopup.style.display = 'none';
+            RequestPopup.style.display = 'flex';
+        };
+        closeRequestButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+            RequestPopup.style.display = 'none';
+        };
+        function LoginAgain() {
+            if (checkLoginError.textContent === loginError.textContent) {
+                loginPopup.style.display = 'flex';
+            }
+            if (checkEmailError.textContent === emailError.textContent) {
+                registerPopup.style.display = 'flex';
+            }
+            if (checkPassError.textContent === passError.textContent) {
+                registerPopup.style.display = 'flex';
+            }
+            if (requestError.textContent === 'Send request success') {
+                RequestPopup.style.display = 'flex';
+            }
+            if (requestError.textContent === 'Email not existed') {
+                RequestPopup.style.display = 'flex';
+            }
+            console.log(requestError.textContent);
+
+
+        }
+
+
+        // ?Ã³ng pop-up khi nh?n ra ngoÃ i
+        window.onclick = function (event) {
+            if (event.target === loginPopup) {
+                loginPopup.style.display = 'none';
+            }
+        };
+
+        window.onclick = function (event) {
+            if (event.target === registerPopup) {
+                registerPopup.style.display = 'none';
+            }
+        };
+    </script>
+    }
+</body>
