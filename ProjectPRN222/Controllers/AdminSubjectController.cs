@@ -23,14 +23,16 @@ namespace ProjectPRN222.Controllers
             return View(subjects);
         }
 
-        public IActionResult AddSubject()
+        public IActionResult AddSubject(int subject_id)
         {
             var categories = _categoryService.GetAllCategories();
             ViewBag.Categories = categories;
 
             var admins = _accountService.GetAllAdmin();
             ViewBag.Admins = admins;
-            return View();
+
+            var subject = _subjectService.GetSubjectById(subject_id);
+            return View(subject);
         }
 
         public IActionResult DoAdd()
@@ -42,5 +44,16 @@ namespace ProjectPRN222.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult DoEdit()
+        {
+            _subjectService.UpdateSubject(Subject!);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DoDelete(int subject_id)
+        {
+            _subjectService.DeleteSubject(subject_id);
+            return RedirectToAction("Index");
+        }
     }
 }

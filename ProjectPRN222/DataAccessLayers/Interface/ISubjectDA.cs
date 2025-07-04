@@ -9,8 +9,8 @@ namespace ProjectPRN222.DataAccessLayers.Interface
         Subject GetSubjectById(int id);
         bool AddSubject(Subject subject);
         bool IsSubjectNameExists(Subject subject);
-        void UpdateSubject(Subject subject);
-        void DeleteSubject(int id);
+        bool UpdateSubject(Subject subject);
+        bool DeleteSubject(int id);
         List<Subject> SearchSubjects(string keyword);
         List<Subject> GetSubjectsByCategoryId(int categoryId);
         List<Subject> GetSubjectsByStudentId(int studentId);

@@ -14,9 +14,11 @@ namespace ProjectPRN222.DataAccessLayers.Impl
             return _context.SaveChanges() > 0;
         }
 
-        public void DeleteSubject(int id)
+        public bool DeleteSubject(int id)
         {
-            throw new NotImplementedException();
+           _context.Subjects.Remove(_context.Subjects.FirstOrDefault(s => s.SubjectId == id)!);
+            return _context.SaveChanges() > 0;
+
         }
 
         public List<Subject> GetAllSubjects()
@@ -66,7 +68,7 @@ namespace ProjectPRN222.DataAccessLayers.Impl
                 Include(s => s.Account).
                 Include(s => s.LessonTopics).
                 Include(s => s.Lessons).
-                FirstOrDefault(s => s.SubjectId == id) ?? throw new KeyNotFoundException($"Subject with ID {id} not found.");
+                FirstOrDefault(s => s.SubjectId == id) ??  new ();
         }
 
         public List<Subject> GetSubjectsByCategoryId(int categoryId)
@@ -90,9 +92,21 @@ namespace ProjectPRN222.DataAccessLayers.Impl
             throw new NotImplementedException();
         }
 
-        public void UpdateSubject(Subject subject)
+        public bool UpdateSubject(Subject subject)
         {
-            throw new NotImplementedException();
+            var existingSubject = _context.Subjects.FirstOrDefault(s => s.SubjectId == subject.SubjectId);
+            if (existingSubject == null)
+            {
+                return false;
+            }
+            existingSubject.SubjectName = subject.SubjectName;
+            existingSubject.CategoryId = subject.CategoryId;
+            existingSubject.Thumbnail = subject.Thumbnail;
+            existingSubject.Tagline = subject.Tagline;
+            existingSubject.Description = subject.Description;
+            existingSubject.AccountId = subject.AccountId;
+
+            return _context.SaveChanges() > 0;
         }
     }
 }

@@ -39,17 +39,17 @@ namespace ProjectPRN222.Controllers
         public IActionResult DoAddLesson()
         {
             _lessonService.AddLesson(Lesson!);
-            return RedirectToAction("AddLesson", new { subject_id = Lesson!.SubjectId });
+            return RedirectToAction("AddLesson", new { subject_id = Lesson!.SubjectId, lesson_topic_id = Lesson.LessonTopicId });
         }
         public IActionResult DoUpdateLesson()
         {
             _lessonService.UpdateLesson(Lesson!);
-            return RedirectToAction("LessonList", new { subject_id = Lesson!.SubjectId });
+            return RedirectToAction("LessonList", new { subject_id = Lesson!.SubjectId, lesson_topic_id = Lesson.LessonTopicId });
         }
-        public IActionResult DoDeleteLesson(int lesson_id, int subject_id)
+        public IActionResult DoDeleteLesson(int lesson_id, int subject_id,int lesson_topic_id)
         {
             _lessonService.DeleteLesson(lesson_id);
-            return RedirectToAction("LessonList", new { subject_id });
+            return RedirectToAction("LessonList", new { subject_id, lesson_topic_id });
         }
 
         //Lesson Topic

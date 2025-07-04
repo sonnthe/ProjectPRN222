@@ -1,7 +1,10 @@
 ﻿@using ProjectPRN222.Models
+@model Subject
 @{
-    ViewData["Title"] = "AdminHomePage";
+    ViewData["Title"] = "Admin Add Subject";
     Layout = "_AdminLayout";
+    string formAction = Model.SubjectId == 0 ? "DoAdd" : "DoEdit";
+    string action = Model.SubjectId == 0 ? "Add Subject" : "Edit Subject";
 }
 <div class="wrapper" data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
 
@@ -10,11 +13,12 @@
         <div class="main">
             <main class="content">
                 <div class="container-fluid p-0">
-                    <h1 class="h3 mb-3">Subject Detail</h1>
+                    <h1 class="h3 mb-3">@action</h1>
 
                     <div class="card">
                         <div class="card-body">
-                            <form action="DoAdd" method="post" >
+                            <form action="@formAction" method="post" >
+                            <input type="hidden" name="SubjectId" value="@Model.SubjectId" />
                                 <div class="row">
                                     <!-- First column: col-md-7 -->
                                     <div class="col-md-7">
@@ -24,7 +28,7 @@
                                                     <h5>Subject Name</h5>
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <input type="text" name="SubjectName" class="form-control" placeholder="Write subject name here..." required />
+                                                            <input type="text" value="@Model.SubjectName" name="SubjectName" class="form-control" placeholder="Write subject name here..." required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -34,38 +38,13 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <select name="CategoryId" class="form-control mb-3" required>
-                                                                <option selected disabled>Select subject Category</option>
                                                                 @foreach (Category category in ViewBag.Categories)
                                                                 {
-                                                                    <option value="@category.CategoryId">@category.CategoryName</option>
+                                                                <option value="@category.CategoryId" @(Model.CategoryId == category.CategoryId ? "selected" : "")>
+                                                                    @category.CategoryName
+                                                                </option>
                                                                 }
                                                             </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="card bg-light py-2 py-md-3 border">
-                                                            <div class="card-body">
-                                                                <h5>Featured</h5>
-                                                                <div class="form-check form-switch">
-                                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Featured subject</label>
-                                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="Featured" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="card bg-light py-2 py-md-3 border">
-                                                            <div class="card-body">
-                                                                <h5>Status</h5>
-                                                                <select name="Status" class="form-control mb-3" required>
-                                                                    <option selected disabled>Select Status</option>
-                                                                    <option value="1">Active</option>
-                                                                    <option value="0">Inactive</option>
-                                                                </select>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -73,7 +52,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Second column: col-md-5 -->
                                     <div class="col-md-5 text-center">
                                         <div class="card">
                                             <img id="imagePreview" class="card-img-top" src="@Url.Content("~/assets/images/unsplash-2.jpg")" alt="Unsplash" />
@@ -81,7 +59,7 @@
                                                 <h5 class="card-title mb-0">Image</h5>
                                             </div>
                                             <div class="card-body">
-                                                <input type="file" name="Thumbnail" class="form-control-file" accept="image/*" required onchange="previewImage(event)" />
+                                                <input type="file" value="@Model.Thumbnail" name="Thumbnail" class="form-control-file" accept="image/*" required onchange="previewImage(event)" />
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +85,7 @@
                                         <h5>Description</h5>
                                         <div class="card">
                                             <div class="card-body">
-                                                <textarea name="Description" class="form-control" rows="2" placeholder="Enter Description" required></textarea>
+                                            <textarea name="Description" class="form-control" rows="2" placeholder="Enter Description" required>@Model.Description</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +96,7 @@
                                         <h5>Tag line</h5>
                                         <div class="card">
                                             <div class="card-body">
-                                                <input type="text" name="Tagline" class="form-control" placeholder="Write tag here..." required />
+                                                <input type="text" value="@Model.Tagline" name="Tagline" class="form-control" placeholder="Write tag here..." required />
                                             </div>
                                         </div>
                                     </div>
@@ -132,7 +110,9 @@
                                             <select name="AccountId" class="form-select" required>
                                                 @foreach (Account expert in ViewBag.Admins)
                                                 {
-                                                    <option value="@expert.AccountId">@expert.FirstName @expert.LastName</option>
+                                                <option value="@expert.AccountId" @(Model.AccountId == expert.AccountId ? "selected" : "")>
+                                                    @expert.FirstName @expert.LastName
+                                                </option>
                                                 }
                                             </select>
                                         </div>

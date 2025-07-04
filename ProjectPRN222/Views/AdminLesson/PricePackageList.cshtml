@@ -146,7 +146,7 @@
                                         <i class="align-middle" data-feather="edit"></i>
                                     </a>
                                     <button type="button" class="btn btn-danger"
-                                            onclick="if (confirm('Are you sure you want to delete this lesson?')) { window.location.href='@Url.Action("DeleteLesson", new { package_id = package.PackageId, subject_id = ViewBag.SubjectId })'; }">
+                                            onclick="if (confirm('Are you sure you want to delete this lesson?')) { window.location.href='@Url.Action("DoDeletePricePackage", new { package_id = package.PackageId, subject_id = ViewBag.SubjectId })'; }">
                                         <i class="align-middle" data-feather="trash"></i>
                                     </button>
                                 </td>

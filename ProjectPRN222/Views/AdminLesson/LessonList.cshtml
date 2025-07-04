@@ -136,7 +136,7 @@
             <div class="header">
                 <h1>Lesson List</h1>
                 <nav>
-                    <a href="@Url.Action("AddLesson","AdminLesson",new { subject_id = subjectId, lesson_topic_id = lessonTopicId , lesson_id = 0})"  class="btn btn-orange">
+                    <a href="@Url.Action("AddLesson","AdminLesson",new {  lesson_id = 0, lesson_topic_id = lessonTopicId , subject_id = subjectId })" class="btn btn-orange">
                         New Lesson <i class="align-middle" data-feather="plus-circle"></i>
                     </a>
                     <a href="@Url.Action("LessonTopicList","AdminLesson",new { subject_id = subjectId })" class="btn btn-success" style="margin: 0">
@@ -152,7 +152,6 @@
                             <th>Lesson ID</th>
                             <th>Lesson</th>
                             <th>Order</th>
-                            <th>Status</th>
                             <th>Option</th>
                         </tr>
                     </thead>
@@ -163,9 +162,6 @@
                                 <td>@lesson.LessonId</td>
                                 <td>@lesson.LessonName</td>
                                 <td>@lesson.LessonOrder</td>
-                                <td>
-                                    @(lesson.Status ? "Active" : "InActive")
-                                </td>
                                 <td style="width: 120px">
                                     <a href="@Url.Action("AddLesson", new { lesson_id = lesson.LessonId, lesson_topic_id = lessonTopicId , subject_id = subjectId })" class="btn btn-success">
                                         <i class="align-middle" data-feather = "edit"></i>

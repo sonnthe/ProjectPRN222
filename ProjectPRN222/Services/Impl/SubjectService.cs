@@ -13,6 +13,11 @@ namespace ProjectPRN222.Services.Impl
             return _subjectDA.AddSubject(subject);
         }
 
+        public bool DeleteSubject(int id)
+        {
+            return _subjectDA.DeleteSubject(id);
+        }
+
         public List<Subject> GetAllSubjects()
         {
             return _subjectDA.GetAllSubjects();
@@ -31,6 +36,11 @@ namespace ProjectPRN222.Services.Impl
         public Subject GetSubjectById(int id)
         {
             return _subjectDA.GetSubjectById(id);
+        }
+
+        public bool UpdateSubject(Subject subject)
+        {
+            return _subjectDA.UpdateSubject(subject);
         }
     }
 }

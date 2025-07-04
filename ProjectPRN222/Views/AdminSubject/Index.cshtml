@@ -112,6 +112,7 @@
                                 <th>Lesson Topics</th>
                                 <th>Price Package</th>
                                 <th>Status</th>
+                                <th>Option</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,6 +143,15 @@
                                     {
                                         <span class="status status-unpublished">UnPublished</span>
                                     }
+                                </td>
+                                <td style="width: 120px">
+                                    <a href="@Url.Action("AddSubject", new {subject_id = subject.SubjectId })" class="btn btn-success">
+                                        <i class="align-middle" data-feather="edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="if (confirm('Are you sure you want to delete this lesson?')) { window.location.href='@Url.Action("DoDelete", new {  subject_id = subject.SubjectId })'; }">
+                                        <i class="align-middle" data-feather="trash"></i>
+                                    </button>
                                 </td>
                                 </tr>
                             }

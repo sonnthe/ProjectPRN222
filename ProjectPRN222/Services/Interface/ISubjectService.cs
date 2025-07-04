@@ -8,6 +8,8 @@ namespace ProjectPRN222.Services.Interface
         List<Subject> GetAllSubjectsForAdmin();
         Subject GetSubjectById(int id);
         bool AddSubject(Subject subject);
+        bool UpdateSubject(Subject subject);
+        bool DeleteSubject(int id);
         int GetLatestSubjectId();
     }
 }

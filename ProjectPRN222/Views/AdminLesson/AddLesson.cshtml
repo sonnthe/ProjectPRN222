@@ -124,24 +124,14 @@
                         <label for="name">Name</label>
                         <input type="text" value="@Model.LessonName" id="name" name="LessonName" placeholder="Enter Lesson Name" required />
                     </div>
-                    @* <div class="form-group"> *@
-                    @*     <label for="topic">Topic</label> *@
-                    @*     <select id="topic" name="topic"> *@
-                    @*         @foreach (LessonTopic topic in ViewBag.LessonTopics) *@
-                    @*         { *@
-                    @*             <option value="@topic.LessonTopicId">@topic.LessonTopicName</option> *@
-                    @*         } *@
-                    @*     </select> *@
-                    @* </div> *@
-
                     <div class="form-group">
                         <label for="summary">Summary</label>
-                        <textarea id="summary" value="@Model.LessonName" name="Summary" placeholder="Enter Summary" required></textarea>
+                        <textarea id="summary" name="Summary" placeholder="Enter Summary" required>@Model.Summary</textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="content">Content</label>
-                        <textarea id="summary" value="@Model.LessonContent" name="LessonContent" placeholder="Enter Content" required></textarea>
+                        <textarea id="summary" name="LessonContent" placeholder="Enter Content" required>@Model.LessonContent</textarea>
                     </div>
 
                     <div class="form-group">

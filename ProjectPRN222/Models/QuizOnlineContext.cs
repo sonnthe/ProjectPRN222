@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ProjectPRN222.Models;
 
@@ -42,6 +40,11 @@ public partial class QuizOnlineContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Package>()
+        .ToTable(tb => tb.UseSqlOutputClause(false));
+        modelBuilder.Entity<Lesson>()
+        .ToTable(tb => tb.UseSqlOutputClause(false));
+
         modelBuilder.Entity<Account>(entity =>
         {
             entity.HasKey(e => e.AccountId).HasName("PK__Account__46A222CD9DB5C5FA");
@@ -113,7 +116,7 @@ public partial class QuizOnlineContext : DbContext
 
             entity.HasOne(d => d.LessonTopic).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.LessonTopicId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FKLesson811441");
 
 
@@ -138,7 +141,7 @@ public partial class QuizOnlineContext : DbContext
 
             entity.HasOne(d => d.Subject).WithMany(p => p.LessonTopics)
                 .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Lesson_Topic_Subject");
         });
 
@@ -160,7 +163,7 @@ public partial class QuizOnlineContext : DbContext
 
             entity.HasOne(d => d.Subject).WithMany(p => p.Packages)
                 .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FKPackage916382");
         });
 
