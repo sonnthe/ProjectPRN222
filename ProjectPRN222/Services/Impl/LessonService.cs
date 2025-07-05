@@ -28,6 +28,11 @@ namespace ProjectPRN222.Services.Impl
             return _lessonDA.DeleteLessonTopic(lessonTopicId);
         }
 
+        public int GetAllLessonCount()
+        {
+            return _lessonDA.GetAllLessonCount();
+        }
+
         public List<Lesson> GetAllLessonsBySubjectId(int subjectId, int lesson_topic_id)
         {
             return _lessonDA.GetAllLessonsBySubjectId(subjectId, lesson_topic_id);

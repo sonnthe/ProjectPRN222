@@ -5,10 +5,12 @@ using System.Diagnostics;
 
 namespace ProjectPRN222.Controllers
 {
-    public class HomeController(ISubjectService subjectService, IAccountService accountService) : Controller
+    public class HomeController(ISubjectService subjectService,
+        IAccountService accountService, ILessonService lessonService) : Controller
     {
         private readonly ISubjectService _subjectService = subjectService;
         private readonly IAccountService _accountService = accountService;
+        private readonly ILessonService _lessonService = lessonService;
 
 
         [BindProperty]
@@ -17,12 +19,19 @@ namespace ProjectPRN222.Controllers
         public IActionResult Index()
         {
             var subjects = _subjectService.GetAllSubjects();
+            int subjectCount = _subjectService.GetAllSubjectCount();
+            ViewBag.TotalSubjects = subjectCount;
+
+            int accountCount = _accountService.GetAllAccountCount();
+            ViewBag.TotalUsers = accountCount;
+
+            int lessonCount = _lessonService.GetAllLessonCount();
+            ViewBag.TotalLessons = lessonCount;
             return View(subjects);
         }
 
         public IActionResult Login()
         {
-            Debug.WriteLine("Admin logged in");
             var account = _accountService.GetAccountByEmailAndPassword(Account.Email, Account.Password);
             if (account != null)
             {
@@ -31,7 +40,7 @@ namespace ProjectPRN222.Controllers
                 HttpContext.Session.SetInt32("AccountId", account.AccountId);
                 if (account.Role.RoleName == "Admin")
                 {
-                    return RedirectToAction("Index", "AdminDashBoard");
+                    return RedirectToAction("Index", "AdminSubject");
                 }
                 return RedirectToAction("Index", "CustomerHome");
             }
@@ -57,6 +66,7 @@ namespace ProjectPRN222.Controllers
             }
             return View(Account);
         }
+
     }
 
 }

@@ -14,6 +14,11 @@ namespace ProjectPRN222.DataAccessLayers.Impl
                 .FirstOrDefault(a => a.Email == email && a.Password == password);
         }
 
+        public int GetAllAccountCount()
+        {
+            return _context.Accounts.Count();
+        }
+
         public List<Account> GetAllAccounts()
         {
             return _context.Accounts.Include(a => a.Role).ToList();

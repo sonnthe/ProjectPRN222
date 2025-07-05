@@ -35,10 +35,23 @@ namespace ProjectPRN222.Controllers
             return View(subject);
         }
 
-        public IActionResult DoAdd()
+        public IActionResult DoAdd(IFormFile Thumbnail)
         {
             Subject!.CreatedDate = DateTime.Now;
             Subject!.Status = false;
+
+            if (Thumbnail != null && Thumbnail.Length > 0)
+            {
+                var fileName = Path.GetFileName(Thumbnail.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    Thumbnail.CopyTo(stream); 
+                }
+                Subject.Thumbnail = "/assets/images/" + fileName;
+            }
+
 
             _subjectService.AddSubject(Subject);
             return RedirectToAction("Index");

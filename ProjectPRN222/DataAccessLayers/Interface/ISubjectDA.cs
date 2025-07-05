@@ -7,6 +7,7 @@ namespace ProjectPRN222.DataAccessLayers.Interface
         List<Subject> GetAllSubjects();
         List<Subject> GetAllSubjectsForAdmin();
         Subject GetSubjectById(int id);
+        int GetAllSubjectsCount();
         bool AddSubject(Subject subject);
         bool IsSubjectNameExists(Subject subject);
         bool UpdateSubject(Subject subject);

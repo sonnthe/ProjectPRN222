@@ -13,6 +13,11 @@ namespace ProjectPRN222.Services.Impl
             return _accountDA.GetAccountByEmailAndPassword(email, password);
         }
 
+        public int GetAllAccountCount()
+        {
+            return _accountDA.GetAllAccountCount();
+        }
+
         public List<Account> GetAllAccounts()
         {
             return _accountDA.GetAllAccounts();

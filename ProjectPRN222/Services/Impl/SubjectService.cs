@@ -18,6 +18,11 @@ namespace ProjectPRN222.Services.Impl
             return _subjectDA.DeleteSubject(id);
         }
 
+        public int GetAllSubjectCount()
+        {
+            return _subjectDA.GetAllSubjectsCount();
+        }
+
         public List<Subject> GetAllSubjects()
         {
             return _subjectDA.GetAllSubjects();

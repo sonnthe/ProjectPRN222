@@ -10,6 +10,7 @@ namespace ProjectPRN222.Services.Interface
         bool AddSubject(Subject subject);
         bool UpdateSubject(Subject subject);
         bool DeleteSubject(int id);
+        int GetAllSubjectCount();
         int GetLatestSubjectId();
     }
 }

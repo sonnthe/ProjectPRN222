@@ -16,5 +16,6 @@ namespace ProjectPRN222.Services.Interface
         bool UpdateLessonTopic(LessonTopic lessonTopic);
         bool DeleteLesson(int lessonId);
         bool DeleteLessonTopic(int lessonTopicId);
+        int GetAllLessonCount();
     }
 }

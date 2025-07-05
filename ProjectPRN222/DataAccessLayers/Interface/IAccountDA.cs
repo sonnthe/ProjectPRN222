@@ -8,5 +8,6 @@ namespace ProjectPRN222.DataAccessLayers.Interface
         void Register(Account account);
         List<Account> GetAllAccounts();
         List<Account> GetAllAdmin();
+        int GetAllAccountCount();
     }
 }

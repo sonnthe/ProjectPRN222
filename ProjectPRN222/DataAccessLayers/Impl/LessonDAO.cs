@@ -32,6 +32,11 @@ namespace ProjectPRN222.DataAccessLayers.Impl
             return _context.SaveChanges() > 0;
         }
 
+        public int GetAllLessonCount()
+        {
+            return _context.Lessons.Count();
+        }
+
         public List<Lesson> GetAllLessonsBySubjectId(int subjectId, int lesson_topic_id)
         {
             return [.. _context.Lessons

@@ -37,6 +37,11 @@ namespace ProjectPRN222.DataAccessLayers.Impl
                 ];  
         }
 
+        public int GetAllSubjectsCount()
+        {
+            return _context.Subjects.Count(s => s.Status == true);
+        }
+
         public List<Subject> GetAllSubjectsForAdmin()
         {
             return [.. _context.Subjects.

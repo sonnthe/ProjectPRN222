@@ -6,33 +6,8 @@
 }
 @{
     ViewData["Title"] = "SubjectDetail";
-    Layout = "_SubjectDetailLayout";
+    Layout = "_HomepageLayout";
 }
-@section Styles{
-    <style>
-        .popup {
-            display: none;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-content {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            max-width: 400px;
-            margin: auto;
-        }
-
-    </style>
-    }
 <body id="bg">
 
     <div class="page-wraper">
@@ -47,7 +22,7 @@
         <!-- Content -->
         <div class="page-content">
             <!-- inner page banner -->
-            <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+            <div class="page-banner ovbl-dark" style="background-image:url(/assets/images/banner/banner2.jpg);">
                 <div class="container">
                     <div class="page-banner-entry">
                         <h1 class="text-white">Subjects Details</h1>
@@ -79,13 +54,12 @@
 
 
                                     <div class="course-buy-now text-center">
-                                        <a href="login.jsp" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+                                        <a href="#" class="btn radius-xl text-uppercase  open-login-popup">Buy Now This Courses</a>
                                     </div>
                                     <div class="teacher-bx">
                                         <div class="teacher-info">
                                             <div class="teacher-name">
                                                 <span>Teacher</span>
-                                                <c:set var="c" value="${requestScope.account}" />
                                                 <h5 class="text-primary">@subject.Account.FirstName @subject.Account.LastName</h5>
                                             </div>
                                         </div>
@@ -198,86 +172,4 @@
         </div>
         <button class="back-to-top fa fa-chevron-up"></button>
     </div>
-    @section Scripts {
-    <script>
-        //login
-        const openLoginButton = document.getElementById('open-login-popup');
-        const closeLoginButton = document.getElementById('close-login-popup');
-        const loginPopup = document.getElementById('login-popup');
-        const loginError = document.getElementById('login-error');
-        const checkLoginError = document.getElementById('check-login-error');
-        //register
-        const openRegisterButton = document.getElementById('open-register-popup');
-        const closeRegisterButton = document.getElementById('close-register-popup');
-        const registerPopup = document.getElementById('register-popup');
-        const emailError = document.getElementById('email-error');
-        const checkEmailError = document.getElementById('check-email-error');
-        const passError = document.getElementById('pass-error');
-        const checkPassError = document.getElementById('check-pass-error');
-        //requestPass
-        const openRequestButton = document.getElementById('open-requestPass-popup');
-        const closeRequestButton = document.getElementById('close-requestPass-popup');
-        const RequestPopup = document.getElementById('requestPass-popup');
-        const requestError = document.getElementById('requestPass-error');
-        const checkRequestError = document.getElementById('check-requestPass-error');
-
-
-        openLoginButton.onclick = function () {
-            loginPopup.style.display = 'flex';
-        };
-
-        openRegisterButton.onclick = function () {
-            registerPopup.style.display = 'flex';
-        };
-
-        closeLoginButton.onclick = function () {
-            loginPopup.style.display = 'none';
-        };
-        closeRegisterButton.onclick = function () {
-            registerPopup.style.display = 'none';
-        };
-        openRequestButton.onclick = function () {
-            loginPopup.style.display = 'none';
-            RequestPopup.style.display = 'flex';
-        };
-        closeRequestButton.onclick = function () {
-            loginPopup.style.display = 'flex';
-            RequestPopup.style.display = 'none';
-        };
-        function LoginAgain() {
-            if (checkLoginError.textContent === loginError.textContent) {
-                loginPopup.style.display = 'flex';
-            }
-            if (checkEmailError.textContent === emailError.textContent) {
-                registerPopup.style.display = 'flex';
-            }
-            if (checkPassError.textContent === passError.textContent) {
-                registerPopup.style.display = 'flex';
-            }
-            if (requestError.textContent === 'Send request success') {
-                RequestPopup.style.display = 'flex';
-            }
-            if (requestError.textContent === 'Email not existed') {
-                RequestPopup.style.display = 'flex';
-            }
-            console.log(requestError.textContent);
-
-
-        }
-
-
-        // ?Ã³ng pop-up khi nh?n ra ngoÃ i
-        window.onclick = function (event) {
-            if (event.target === loginPopup) {
-                loginPopup.style.display = 'none';
-            }
-        };
-
-        window.onclick = function (event) {
-            if (event.target === registerPopup) {
-                registerPopup.style.display = 'none';
-            }
-        };
-    </script>
-    }
 </body>
